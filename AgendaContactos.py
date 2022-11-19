@@ -1,18 +1,15 @@
-def hola():
-    print('hola')
+def add_contact():
+    name = input("Introduce el nombre del contacto: ")
+    surname = input("Introduce el apellido: ")
+    phone_number = input("Introduce el número de teléfono: ")
+    adress = input("Introduce la dirección: ")
+    mail = input("Indroduce el correo electrónico: ")
 
-def adios():
-    print('adios')
+def delete_contact():
+    remove_contact = input("Introduce el contacto que quieres borrar: ")
 
-def pregunta():
-    print('Cómo estas?')
-
-
-mapa = {
-    1:hola,
-    2:adios,
-    3:pregunta
+switcher = {
+    1: add_contact,
+    2: delete_contact
 }
-
-opcion = int(input('Dime la opcion:\n1: Saludar\n2: Despedirse\n3: Pregunta\n'))
-mapa[opcion]()
+menu = input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contactos")
