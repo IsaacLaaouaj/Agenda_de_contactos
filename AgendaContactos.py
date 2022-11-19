@@ -17,4 +17,4 @@ switcher = {
 menu = input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contactos")
 
 credenciales = credentials.Certificate('agenda-1720b-firebase-adminsdk-nbaiz-0e38f4eba0.json')
-firebase_admin.initialize_app(credenciales)
+firebase_admin.initialize_app(credential=credenciales, options={"databaseURL" : "https://agenda-1720b-default-rtdb.europe-west1.firebasedatabase.app/"})
