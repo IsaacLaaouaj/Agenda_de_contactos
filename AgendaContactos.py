@@ -15,7 +15,7 @@ def add_contact():
     })
 
 def delete_contact():
-    remove_contact = input("Introduce el contacto que quieres borrar: ")
+    remove_contact = input("Introduce el nombre del contacto que quieres borrar: ")
 
 
 credenciales = credentials.Certificate('agenda-1720b-firebase-adminsdk-nbaiz-0e38f4eba0.json')
@@ -26,5 +26,5 @@ switcher = {
     1: add_contact,
     2: delete_contact
 }
-menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contactos"))
+menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto"))  
 switcher[menu]()
