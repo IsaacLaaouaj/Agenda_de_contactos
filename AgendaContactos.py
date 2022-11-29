@@ -25,7 +25,12 @@ def modify_contact():
     pass
 
 def all_contacts():
-    for contact in ref.get().values():
+    try:
+        contactos = ref.get().values()
+    except:
+        print("Error, porfavor introducir algún contacto.")
+        return
+    for contact in contactos:
         print('\n---------------------------------------------------')
         print('Nombre: ', contact['Nombre'])
         print('Apellido: ', contact['Apellido'])
@@ -50,9 +55,8 @@ switcher = {
     4: all_contacts,
     5: out
 }
-#menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir"))
-#switcher[menu]()
 
+#Bucle
 while (True):
     try:
         menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir\n"))
