@@ -1,4 +1,4 @@
-import firebase_admin
+import firebase_admin, sys
 from firebase_admin import credentials,db
 
 #Funciones necesarias:
@@ -12,7 +12,7 @@ def add_contact():
     ref.push({
         'Nombre':name,
         'Apellido': surname,
-        'Número de teléfono': phone_number,
+        'Numero de telefono': phone_number,
         'Direccion' : address,
         'Correo electronico' : mail
     })
@@ -23,11 +23,17 @@ def delete_contact():
 def modify_contact():
     #Elige la opción que quieres modificar.
     pass
+
 def all_contacts():
     for contact in ref.get().values():
-        print('Nombre: ',contact['Nombre'])
-    
+        print('Nombre: ', contact['Nombre'])
+        print('Apellido: ', contact['Apellido'])
+        print('Numero de telefono: ', contact['Numero de telefono'])
+        print('Direccion: ', contact['Direccion'])
+        print('Correo electronico: ', contact['Correo electronico'])
 
+def out(ref):
+    sys.exit()
 
 #Firebase:
 credenciales = credentials.Certificate('agenda-1720b-firebase-adminsdk-nbaiz-0e38f4eba0.json')
@@ -39,8 +45,15 @@ switcher = {
     1: add_contact,
     2: delete_contact,
     3: modify_contact,
-    4: all_contacts
+    4: all_contacts,
+    5: out
 }
-menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto"))  
-switcher[menu]()
+#menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir"))
+#switcher[menu]()
 
+while (True):
+    try:
+        menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir"))
+        switcher[menu]()
+    except Exception as e:
+        print("Error, asegurate de haber introducido los datos correctos.")
