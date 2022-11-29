@@ -12,9 +12,9 @@ def add_contact():
     ref.push({
         'Nombre':name,
         'Apellido': surname,
-        'Numero de telefono': phone_number,
+        'Numero_de_telefono': phone_number,
         'Direccion' : address,
-        'Correo electronico' : mail
+        'Correo_electronico' : mail
     })
 
 def delete_contact():
@@ -26,13 +26,15 @@ def modify_contact():
 
 def all_contacts():
     for contact in ref.get().values():
+        print('\n---------------------------------------------------')
         print('Nombre: ', contact['Nombre'])
         print('Apellido: ', contact['Apellido'])
-        print('Numero de telefono: ', contact['Numero de telefono'])
+        print('Numero de telefono: ', contact['Numero_de_telefono'])
         print('Direccion: ', contact['Direccion'])
-        print('Correo electronico: ', contact['Correo electronico'])
+        print('Correo electronico: ', contact['Correo_electronico'])
+        print('---------------------------------------------------\n')
 
-def out(ref):
+def out():
     sys.exit()
 
 #Firebase:
@@ -53,7 +55,7 @@ switcher = {
 
 while (True):
     try:
-        menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir"))
+        menu = int(input("Seleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Muestra todos los contactos \n5: Salir\n"))
         switcher[menu]()
     except Exception as e:
         print("Error, asegurate de haber introducido los datos correctos.")
