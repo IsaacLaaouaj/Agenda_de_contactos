@@ -86,7 +86,12 @@ def modify_contact():
             return
 
 def all_contacts():
-    print_contacts(ref.get().values())
+    try:
+        contactos = ref.get().values()
+    except:
+        print('No hay contactos en la base de datos')
+    else:
+        print_contacts(contactos)
 
 def print_contacts(contacts):
     for contact in contacts:
@@ -119,7 +124,7 @@ switcher = {
 
 while (True):
     try:
-        menu = int(input("\nSeleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Busca contacto \n5: Muestra todos los contactos \n6: Salir\n-> Introduce una opción:"))
+        menu = int(input("\nSeleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Busca contacto \n5: Muestra todos los contactos \n6: Salir\n-> Introduce una opción: "))
         switcher[menu]()
     except Exception as e:
         print("Error, asegurate de haber introducido los datos correctos.")
