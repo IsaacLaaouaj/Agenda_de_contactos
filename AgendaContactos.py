@@ -76,9 +76,7 @@ def modify_contact():
                 +'3: Numero de telefono\n'
                 +'4: Direccion\n'
                 +'5: Correo electronico\n'))
-            # mapeo = {1:4,2:1,3:5,4:3,5:2}
-            # opcion = mapeo[opcion]
-            print('KEYS: ',list(contact.keys()))
+            #print('TODAS LAS OPCIONES: ',list(contact.keys()))
             
             for campo in contact.keys():
                 if(opcion == list(contact.keys()).index(campo)+1):
@@ -120,9 +118,8 @@ switcher = {
 #switcher[menu]()
 
 while (True):
-    # try:
-        menu = int(input("\nSeleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Busca contacto \n5: Muestra todos los contactos \n6: Salir\n"))
+    try:
+        menu = int(input("\nSeleccione las opciones:\n1: Añadir contacto \n2: Borrar contacto \n3: Modificar contacto \n4: Busca contacto \n5: Muestra todos los contactos \n6: Salir\n-> Introduce una opción:"))
         switcher[menu]()
-    # except Exception as e:
-    #     print(e)
-    #     print("Error, asegurate de haber introducido los datos correctos.")
+    except Exception as e:
+        print("Error, asegurate de haber introducido los datos correctos.")
