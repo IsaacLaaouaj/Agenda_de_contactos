@@ -1,13 +1,13 @@
-import firebase_admin, sys
+import firebase_admin, sys, re
 from firebase_admin import credentials,db
 
 #Funciones necesarias:
 def add_contact():
-    name = input("Introduce el nombre del contacto: ")
-    surname = input("Introduce el apellido: ")
-    phone_number = input("Introduce el número de teléfono: ")
-    address = input("Introduce la dirección: ")
-    mail = input("Indroduce el correo electrónico: ")
+    name = input("Introduce el nombre del contacto: ").lower()
+    surname = input("Introduce el apellido: ").lower()
+    phone_number = phone_number_valide()
+    address = input("Introduce la dirección: ").lower()
+    mail = mail_valide()
     
     ref.push({
         'Nombre':name,
@@ -44,9 +44,6 @@ def delete_contact():
             contacto.delete()
             return
 
-
-
-
 def modify_contact():
     contactos = find_contact(False)
     for contacto in contactos:
@@ -70,18 +67,17 @@ def modify_contact():
                 'Direccion' : contact['Direccion'],
                 'Correo_electronico' : contact['Correo_electronico']
             }
-            opcion = int(input('Que campo quieres modificar?\n'
-                +'1: Nombre\n'
-                +'2: Apellido\n'
-                +'3: Numero de telefono\n'
-                +'4: Direccion\n'
-                +'5: Correo electronico\n'))
-            #print('TODAS LAS OPCIONES: ',list(contact.keys()))
-            
-            for campo in contact.keys():
-                if(opcion == list(contact.keys()).index(campo)+1):
-                    contact[campo] = input('Introduce nuevo/a '+campo.replace('_',' ')+': ')
-                    break
+
+            opcion = int(edit_option_valide())
+            if(opcion == 3):
+                contact['Numero_de_telefono'] = phone_number_valide(edit=True)
+            elif(opcion == 5):
+                contact['Correo_electronico'] = mail_valide(edit=True)
+            else:
+                for campo in contact.keys():
+                    if(opcion == list(contact.keys()).index(campo)+1):
+                        contact[campo] = input('Introduce nuevo/a '+campo.replace('_',' ').lower()+': ').lower()
+                        break
             contacto.update(contact)
             return
 
@@ -96,12 +92,53 @@ def all_contacts():
 def print_contacts(contacts):
     for contact in contacts:
         print('---------------------------------------------------')
-        print('Nombre: ', contact['Nombre'])
-        print('Apellido: ', contact['Apellido'])
+        print('Nombre: ', contact['Nombre'].title())
+        print('Apellido: ', contact['Apellido'].title())
         print('Numero de telefono: ', contact['Numero_de_telefono'])
-        print('Direccion: ', contact['Direccion'])
+        print('Direccion: ', contact['Direccion'].title())
         print('Correo electronico: ', contact['Correo_electronico'])
         print('---------------------------------------------------')
+
+def phone_number_valide(edit = False):
+    if(edit):
+        number = input("Introduce el número de teléfono: ")
+    else:
+        number = input("Introduce nuevo número de teléfono: ")
+    filter = re.compile('^\d{9}$')
+    number = re.findall(filter,number)
+    while(len(number) != 1):
+        number = input('Formato de numero no válido, introduce otro (9 numeros): ')
+        filter = re.compile('^\d{9}$')
+        number = re.findall(filter,number)
+    return number[0]
+
+def mail_valide(edit = False):
+    if(edit):
+        mail = input("Introduce nuevo correo electrónico: ")
+    else:
+        mail = input("Introduce el correo electrónico: ")
+    filter = re.compile('.+@.+\.com|.+@.+\.es')
+    mail = re.findall(filter,mail)
+    while(len(mail) != 1):
+        mail = input('Formato de email no válido, introduce otro (xxx@xxx.com/es): ')
+        filter = re.compile('.+@.+\.com|.+@.+\.es')
+        mail = re.findall(filter,mail)
+    return mail[0]
+
+def edit_option_valide(error = False):
+    if(error):
+        print('ERROR!! Introduce una opcion valida\nQue campo quieres modificar?\n')
+    else:
+        print('Que campo quieres modificar?\n')
+    opcion = input('1: Nombre\n'
+                +'2: Apellido\n'
+                +'3: Numero de telefono\n'
+                +'4: Direccion\n'
+                +'5: Correo electronico\n')
+    if(opcion not in ['1','2','3','4','5'] or not opcion.isdigit()):
+        return edit_option_valide(error=True)
+    else:
+        return opcion
 
 def out():
     sys.exit()
