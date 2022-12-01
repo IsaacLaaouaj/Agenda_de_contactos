@@ -149,7 +149,7 @@ def out():
     sys.exit()
 
 #Firebase:
-credenciales = credentials.Certificate('credenciales.json')
+credenciales = credentials.Certificate('programa/credenciales.json')
 firebase_admin.initialize_app(credential=credenciales, options={"databaseURL" : "https://agenda-1720b-default-rtdb.europe-west1.firebasedatabase.app/"})
 ref = db.reference('contactos')
 #menu
