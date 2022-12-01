@@ -16,14 +16,7 @@ def add_contact():
         'Direccion' : address,
         'Correo_electronico' : mail
     })
-
-def find_contact(print = True):
-    name = input('Escribe nombre del contacto que quieras buscar: ')
-    contactos = ref.order_by_child('Nombre').equal_to(name).get()
-    if(print):
-        print_contacts(contactos.values())
-    else:
-        return contactos
+    print('\n'*20+'Contacto creado exitosamente!!')
 
 def delete_contact():
     contactos = find_contact(False)
@@ -31,8 +24,8 @@ def delete_contact():
         contacto = ref.child(contacto)
         contact = contacto.get()
         print('---------------------------------------------------')
-        print('Nombre: ', contact['Nombre'])
-        print('Apellido: ', contact['Apellido'])
+        print('Nombre: ', contact['Nombre'].title())
+        print('Apellido: ', contact['Apellido'].title())
         print('Numero de telefono: ', contact['Numero_de_telefono'])
         print('Direccion: ', contact['Direccion'])
         print('Correo electronico: ', contact['Correo_electronico'])
@@ -42,7 +35,9 @@ def delete_contact():
             delete = input('Quieres borrar este contacto? (s/n(siguiente)): ')
         if(delete == 's'):
             contacto.delete()
+            print('\n'*20+'Contacto borrado exitosamente!!')
             return
+    print('\n'*20+'Ningún contacto ha sido borrado')
 
 def modify_contact():
     contactos = find_contact(False)
@@ -50,8 +45,8 @@ def modify_contact():
         contacto = ref.child(contacto)
         contact = contacto.get()
         print('---------------------------------------------------')
-        print('Nombre: ', contact['Nombre'])
-        print('Apellido: ', contact['Apellido'])
+        print('Nombre: ', contact['Nombre'].title())
+        print('Apellido: ', contact['Apellido'].title())
         print('Numero de telefono: ', contact['Numero_de_telefono'])
         print('Direccion: ', contact['Direccion'])
         print('Correo electronico: ', contact['Correo_electronico'])
@@ -79,13 +74,22 @@ def modify_contact():
                         contact[campo] = input('Introduce nuevo/a '+campo.replace('_',' ').lower()+': ').lower()
                         break
             contacto.update(contact)
+            print('\n'*20+'Contacto editado exitosamente!!')
             return
+
+def find_contact(print = True):
+    name = input('Escribe nombre del contacto que quieras buscar: ').lower()
+    contactos = ref.order_by_child('Nombre').equal_to(name).get()
+    if(print):
+        print_contacts(contactos.values())
+    else:
+        return contactos
 
 def all_contacts():
     try:
         contactos = ref.get().values()
     except:
-        print('No hay contactos en la base de datos')
+        print('\n'*20+'No hay contactos en la base de datos')
     else:
         print_contacts(contactos)
 
@@ -95,7 +99,7 @@ def print_contacts(contacts):
         print('Nombre: ', contact['Nombre'].title())
         print('Apellido: ', contact['Apellido'].title())
         print('Numero de telefono: ', contact['Numero_de_telefono'])
-        print('Direccion: ', contact['Direccion'].title())
+        print('Direccion: ', contact['Direccion'])
         print('Correo electronico: ', contact['Correo_electronico'])
         print('---------------------------------------------------')
 
@@ -104,11 +108,11 @@ def phone_number_valide(edit = False):
         number = input("Introduce el número de teléfono: ")
     else:
         number = input("Introduce nuevo número de teléfono: ")
-    filter = re.compile('^\d{9}$')
+    filter = re.compile('^\d{9,13}$')
     number = re.findall(filter,number)
     while(len(number) != 1):
         number = input('Formato de numero no válido, introduce otro (9 numeros): ')
-        filter = re.compile('^\d{9}$')
+        filter = re.compile('^\d{9,13}$')
         number = re.findall(filter,number)
     return number[0]
 
@@ -117,11 +121,11 @@ def mail_valide(edit = False):
         mail = input("Introduce nuevo correo electrónico: ")
     else:
         mail = input("Introduce el correo electrónico: ")
-    filter = re.compile('.+@.+\.com|.+@.+\.es')
+    filter = re.compile('.+@.+\.com|.+@.+\.es|.+@.+\.COM|.+@.+\.ES')
     mail = re.findall(filter,mail)
     while(len(mail) != 1):
         mail = input('Formato de email no válido, introduce otro (xxx@xxx.com/es): ')
-        filter = re.compile('.+@.+\.com|.+@.+\.es')
+        filter = re.compile('.+@.+\.com|.+@.+\.es|.+@.+\.COM|.+@.+\.ES')
         mail = re.findall(filter,mail)
     return mail[0]
 
@@ -141,6 +145,7 @@ def edit_option_valide(error = False):
         return opcion
 
 def out():
+    print('\n'*20+'HASTA PRONTO!!')
     sys.exit()
 
 #Firebase:
