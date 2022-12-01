@@ -107,6 +107,7 @@ def find_contact(print = True):
 
 # Ésta funcion hace una consulta en base de datos,recoge todos
 # y llama a una función de pintado de contactos
+def all_contacts():
     try:
         contactos = ref.get().values()
     except:
